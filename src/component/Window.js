@@ -17,7 +17,7 @@ const Window = ({ isOpen, onClose, title, tabs, fullscreenWidth }) => {
     <div className="window-overlay">
       <div className={`window ${isFullscreen ? 'fullscreen' : ''}`} style={{ width: isFullscreen ? fullscreenWidth : '600px' }}>
       <div className="window-header">
-          <h2></h2>
+        
           <button className="fullscreen-button" > - </button>
           <button className="fullscreen-button" onClick={toggleFullscreen}>
             {isFullscreen ? '⤤' : '⤢'} {/* Toggle between full screen and normal screen icons */}
