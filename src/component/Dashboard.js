@@ -16,24 +16,35 @@ export const Component2 = () => {
             <h1>Component 2</h1>
         </div>
     )
-
 }
+
+
 const Dashboard = () => {
   const [minimizedWindows, setMinimizedWindows] = useState([]);
-  const [windows, setWindows] = useState([
-    {
-      id: 1,
-      title: 'Window 1',
-      components: [
-        { title: 'Tab 1', content: <Component1 /> },
-        { title: 'Tab 2', content: <Component2 /> },
-      ],
-    },
-    // Add more windows as needed
-  ]);
+  const [windows, setWindows] = useState([]);
+  const [windowCounter, setWindowCounter] = useState(1); // For generating unique window IDs
+  const [isWindowOpened, setIsWindowOpened] = useState(false);
+
+  const handleOpenWindow = () => {
+    if(!isWindowOpened) {
+        const newWindow = {
+          id: windowCounter,
+          title: `Window ${windowCounter}`,
+          components: [
+            { title: 'Tab 1', content: <Component1 /> },
+            { title: 'Tab 2', content: <Component2 /> },
+          ],
+        };
+        setWindows((prev) => [...prev, newWindow]);
+        setWindowCounter((prev) => prev + 1);
+        setIsWindowOpened(true)
+
+    }
+  };
 
   const handleMinimize = (id) => {
     setMinimizedWindows((prev) => [...prev, id]);
+    setIsWindowOpened((prev) => !prev)
   };
 
   const handleReopen = (id) => {
@@ -46,16 +57,18 @@ const Dashboard = () => {
 
   return (
     <div>
+          <div style={{'textAlign': 'right'}}>
+      <button onClick={handleOpenWindow}>Open Window</button>
+      </div>
       <div className="dashboard">
         {/* Other dashboard content */}
-        <div className="minimized-windows">
+        {/* <div className="minimized-windows">
           <span>Minimized Windows: {minimizedWindows.length}</span>
-          {minimizedWindows.map((id) => (
-            <button key={id} onClick={() => handleReopen(id)}>
-              Reopen Window {id}
+          <button  onClick={() => handleOpenWindow}>
+            Open Minimized Window
             </button>
-          ))}
-        </div>
+          
+        </div> */}
       </div>
       {windows.map((window) => (
         <WindowComponent
@@ -64,6 +77,7 @@ const Dashboard = () => {
           title={window.title}
           components={window.components}
           onClose={handleClose}
+          handleMinimize={handleMinimize}
         />
       ))}
     </div>
@@ -71,3 +85,4 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
+

@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import './WindowComponent.css'; // Assuming you have your own framework for styling
 
-const WindowComponent = ({ id, title, components, onClose }) => {
+const WindowComponent = ({ id, title, components, onClose, handleMinimize }) => {
   const [isMinimized, setIsMinimized] = useState(false);
   const [isMaximized, setIsMaximized] = useState(false);
   const [activeTab, setActiveTab] = useState(0);
 
-  const handleMinimize = () => {
-    setIsMinimized(true);
+  const minimize = () => {
+    handleMinimize(true);
+    setIsMinimized(!isMinimized);
   };
 
   const handleMaximize = () => {
@@ -30,7 +31,7 @@ const WindowComponent = ({ id, title, components, onClose }) => {
         <div className="window-header">
           {/* <span className="window-title">{title}</span> */}
           <div className="window-actions">
-            <button onClick={handleMinimize} style={{fontSize: '20px'}}>-</button>
+            <button onClick={minimize} style={{fontSize: '20px'}}>-</button>
             {/* <button onClick={handleMaximize}>{isMaximized ? '🗗' : '🗖'}</button> */}
             <button onClick={handleMaximize}>{isMaximized ? '⤤' : '⤢'}</button>
 
